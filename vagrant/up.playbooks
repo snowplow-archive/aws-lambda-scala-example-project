@@ -1,0 +1,6 @@
+oss-playbooks/aws-cli-and-psql.yml
+oss-playbooks/java8.yml
+oss-playbooks/scala-2.11.6.yml
+oss-playbooks/sbt-13.8.yml
+oss-playbooks/invoke.yml
+oss-playbooks/python-filechunkio.yml
