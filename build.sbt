@@ -3,7 +3,7 @@ javacOptions ++= Seq("-source", "1.8", "-target", "1.8", "-Xlint")
 lazy val root = (project in file(".")).
   settings(
     name := "aws-lambda-scala-example-project",
-    version := "1.0",
+    version := "0.1.0",
     scalaVersion := "2.11.6",
     retrieveManaged := true,
     libraryDependencies += "com.amazonaws" % "aws-lambda-java-core"       % "1.0.0",
@@ -20,3 +20,4 @@ mergeStrategy in assembly := {
     case x => MergeStrategy.first
 }
 
+jarName in assembly := { s"${name.value}-${version.value}" }

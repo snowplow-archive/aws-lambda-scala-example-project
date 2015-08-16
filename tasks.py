@@ -38,8 +38,8 @@ STACK_NAME = "LambdaStack"
 TEMPLATE_URL = "https://snowplow-hosted-assets.s3.amazonaws.com/third-party/aws-lambda/lambda-admin.template"
 CAPABILITIES = ["CAPABILITY_IAM"]
 S3_BUCKET = "aws_scala_lambda_bucket"
-S3_KEY = "aws-lambda-scala-example-project-assembly-1.0.jar"
-JARFILE = "./target/scala-2.11/aws-lambda-scala-example-project-assembly-1.0.jar"
+S3_KEY = "aws-lambda-scala-example-project-0.1.0"
+JARFILE = "./target/scala-2.11/aws-lambda-scala-example-project-0.1.0"
 FUNCTION_NAME = "ProcessingKinesisLambdaDynamoDB"
 # Selection of EventType values
 COLORS = ['Red','Orange','Yellow','Green','Blue']
@@ -113,12 +113,12 @@ def upload_s3():
 
     # Finish the upload
     mp.complete_upload()
-    print("JAR Uploaded to S3 aws_scala_lambda_bucket")
+    print("Jar uploaded to S3 bucket " + S3_BUCKET)
 
 @task
 def create_role():
     """
-    Creates IAM role using cloudformation for AWS Lambda Service
+    Creates IAM role using CloudFormation for AWS Lambda service
     """
     client_cf = boto.cloudformation.connect_to_region(REGION)
     response = client_cf.create_stack(
@@ -143,7 +143,7 @@ def create_role():
     print "Trying..."
     # grants Admin access to LambdaExecRole to access Cloudwatch, DynamoDB, Kinesis
     client_iam.put_role_policy(IAM_ROLE, POLICY_NAME, POLICY)
-    print "Created Role."
+    print "Created role"
 
 
 @task
@@ -168,7 +168,7 @@ def create_lambda():
                                     --function-name {} \
                                     --code S3Bucket={},S3Key={} \
                                     --role {} \
-                                    --handler com.snowplowanalytics.ProcessKinesisEvents::recordHandler \
+                                    --handler com.snowplowanalytics.awslambda.LambdaFunction::recordHandler \
                                     --runtime java8 --timeout 60 --memory-size 1024".format(REGION, FUNCTION_NAME, S3_BUCKET, S3_KEY, IAM_ROLE_ARN), pty=True)
  
 def get_iam_role_arn():
@@ -183,9 +183,9 @@ def get_iam_role_arn():
 @task
 def configure_lambda(stream):
     """
-    Configure Lambda function to 
+    Configure Lambda function to use Kinesis
     """
-    print("Configured AWS Lambda Service.")
+    print("Configured AWS Lambda service")
     IAM_ROLE_ARN = get_iam_role_arn()
     aws_lambda = boto.connect_awslambda()
     event_source = kinesis_stream(stream)
@@ -197,11 +197,11 @@ def configure_lambda(stream):
     event_source_id = response_add_event_source['UUID']
 
     while response_add_event_source['IsActive'] != 'true':
-        print('Waiting for the event source to become Active.')
+        print('Waiting for the event source to become active')
         sleep(5)
         response_add_event_source = aws_lambda.get_event_source(event_source_id)
     
-    print('Added Kinesis as event source for Lambda function.')
+    print('Added Kinesis as event source for Lambda function')
 
 
 @task
@@ -225,18 +225,18 @@ def create_dynamodb_table(profile, region, table):
 @task
 def create_kinesis_stream(stream):
     """
-    create our Kinesis stream
+    Creates our Kinesis stream
     """
     kinesis = boto.connect_kinesis()
     response = kinesis.create_stream(stream, 1)
     pause_until_kinesis_active(stream)
-    print("Kinesis successfully created.")
+    print("Kinesis successfully created")
 
 def pause_until_kinesis_active(stream):
     kinesis = boto.connect_kinesis()
     # Wait for Kinesis stream to be active
     while kinesis.describe_stream(stream)['StreamDescription']['StreamStatus'] != 'ACTIVE':
-        print('Kinesis Stream [' + stream + '] not active yet.')
+        print('Kinesis stream [' + stream + '] not active yet')
         time.sleep(5)
 
 def kinesis_stream(stream):
@@ -252,5 +252,4 @@ def describe_kinesis_stream(stream):
     Prints status Kinesis stream
     """
     print("Created: ")
-    print(kinesis_stream(stream))
-    
+    print(kinesis_stream(stream))   

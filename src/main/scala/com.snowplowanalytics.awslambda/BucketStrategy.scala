@@ -10,8 +10,7 @@
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the Apache License Version 2.0 for the specific language governing permissions and limitations there under.
  */
-package com.snowplowanalytics
-
+package com.snowplowanalytics.awslambda
 
 // Java
 import java.util.Date
@@ -50,4 +49,4 @@ object BucketStrategy {
    */
   def bucket(date: Date): String =
     BucketToMinuteFormatter.format(date)
-} 
+}

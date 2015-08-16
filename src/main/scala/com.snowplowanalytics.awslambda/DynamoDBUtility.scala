@@ -10,20 +10,15 @@
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the Apache License Version 2.0 for the specific language governing permissions and limitations there under.
  */
-package com.snowplowanalytics
-
+package com.snowplowanalytics.awslambda
 
 // Java
 import java.util.Date
 import java.util.TimeZone
 import java.text.SimpleDateFormat
 
-
-// AWS Authentication
-// http://docs.aws.amazon.com/AWSJavaSDK/latest/javadoc/com/amazonaws/auth/DefaultAWSCredentialsProviderChain.html
+// AWS
 import com.amazonaws.auth.profile.ProfileCredentialsProvider
-
-// AWS DynamoDB
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient
 import com.amazonaws.services.dynamodbv2.document.{AttributeUpdate, DynamoDB, Item}
 
@@ -56,7 +51,7 @@ object DynamoDBUtility {
     dynamoDB
   }
 
-/**
+  /**
    * Function wraps AWS Java putItem operation to DynamoDB table
    */
   def putItem(dynamoDB: DynamoDB, tableName: String, bucketStart: String, eventType: String, createdAt: String,  updatedAt: String, count: Int) {
@@ -74,7 +69,6 @@ object DynamoDBUtility {
       date.setTime(time)
       dateFormatter.setTimeZone(TimeZone.getTimeZone("UTC"))
       val table = dynamoDB.getTable(tableName)
-      println("Adding data to " + tableName)
 
       val item = new Item().withPrimaryKey(tablePrimaryKeyName, bucketStart)
         .withString(tableEventTypeSecondaryKeyName, eventType)
@@ -82,8 +76,7 @@ object DynamoDBUtility {
         .withString(tableUpdatedAtColumnName, updatedAt)
         .withInt(tableCountColumnName, count)
 
-      // saving the data to DynamoDB AggregrateRecords table
-      // println(item)
+      // Saving the data to DynamoDB AggregrateRecords table
       table.putItem(item)
     } catch {
       case e: Exception => {

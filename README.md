@@ -10,7 +10,7 @@ This was built by the Data Science team at [Snowplow Analytics] [snowplow], who 
 
 **Running this requires an Amazon AWS account, and will incur charges.**
 
-_See also:_ [Spark Streaming Example Project][spark-streaming-example-project] | [Spark Example Project] [spark-example-project] | [AWS Lambda Node.js Project][aws-lambda-nodejs-example-project]
+_See also:_ [AWS Lambda Node.js Project][aws-lambda-nodejs-example-project] | [Spark Streaming Example Project][spark-streaming-example-project]
 
 ## Overview
 
@@ -58,19 +58,15 @@ Default region name [None]: us-east-1
 Default output format [None]: json
 ```
 
-
 ### 2. Setup Amazon Kinesis, DynamoDB, and IAM Role
 
 Now we create our Kinesis event stream:
 
 ```bash
 $ inv create_kinesis_stream my-stream
-Kinesis Stream [my-stream] not active yet.
-Kinesis Stream [my-stream] not active yet.
-Kinesis Stream [my-stream] not active yet.
-Kinesis Stream [my-stream] not active yet.
-Kinesis Stream [my-stream] not active yet.
-Kinesis Stream [my-stream] not active yet.
+Kinesis Stream [my-stream] not active yet
+Kinesis Stream [my-stream] not active yet
+Kinesis Stream [my-stream] not active yet
 Kinesis successfully created.
 ```
 
@@ -80,8 +76,7 @@ Now create our DynamoDB table:
 $ inv create_dynamodb_table default us-east-1 my-table
 ```
 
-
-Now we can create our IAM role. We will be using [CloudFormation] (http://aws.amazon.com/cloudformation) to make our new role. Using `inv create_role`, we can create it like so:
+Now we can create our IAM role. We will be using [CloudFormation] [cloudformation] to make our new role. Using `inv create_role`, we can create it like so:
 
 ```bash
 $ inv create_role
@@ -90,7 +85,7 @@ Creating roles
 Still creating
 Giving Lambda proper permissions
 Trying...
-Created Role.
+Created role
 ```
 
 ### 3.  Build the Scala project jar
@@ -102,26 +97,12 @@ $ sbt assembly
 info] Loading project definition from /aws-lambda-scala-example-project/project
 [info] Set current project to aws-lambda-scala-example-project (in build file:/aws-lambda-scala-example-project/)
 [info] Including from cache: scala-reflect-2.11.4.jar
-[info] Including from cache: scala-library-2.11.6.jar
-[info] Including from cache: jackson-annotations-2.5.2.jar
-[info] Including from cache: paranamer-2.6.jar
-[info] Including from cache: json4s-jackson_2.11-3.2.11.jar
-[info] Including from cache: aws-lambda-java-core-1.0.0.jar
-[info] Including from cache: aws-lambda-java-events-1.0.0.jar
-[info] Including from cache: json4s-core_2.11-3.2.11.jar
-[info] Including from cache: aws-java-sdk-s3-1.10.10.jar
-[info] Including from cache: json4s-ast_2.11-3.2.11.jar
-[info] Including from cache: aws-java-sdk-kms-1.10.10.jar
 ...
-...
-...
-[warn] Merging 'META-INF/services/com.fasterxml.jackson.databind.Module' with strategy 'discard'
-[warn] Merging 'META-INF/services/javax.script.ScriptEngineFactory' with strategy 'discard'
 [warn] Merging 'rootdoc.txt' with strategy 'first'
 [warn] Strategy 'discard' was applied to 62 files
 [warn] Strategy 'first' was applied to a file
 [info] SHA-1: 96401bbad71968267ccea4c479a7d39093ef8988
-[info] Packaging /Volumes/DataDrive/dev/aws-lambda-scala-example-project/target/scala-2.11/aws-lambda-scala-example-project-assembly-1.0.jar ...
+[info] Packaging /Volumes/DataDrive/dev/aws-lambda-scala-example-project/target/scala-2.11/aws-lambda-scala-example-project-0.1.0 ...
 [info] Done packaging.
 [success] Total time: 59 s, completed 13-Aug-2015 10:40:05 AM
 ```
@@ -132,7 +113,7 @@ We will create a S3 Bucket for the jar file to be picked up by AWS Lambda.  We w
 
 ```bash
 $ inv upload_s3
-JAR Uploaded to S3 aws_scala_lambda_bucket
+Jar uploaded to S3 aws_scala_lambda_bucket
 ```
 
 ### 5.  Configure AWS Lambda service
@@ -147,7 +128,7 @@ Creating AWS Lambda function.
     "CodeSize": 38042279,
     "MemorySize": 1024,
     "FunctionArn": "arn:aws:lambda:us-east-1:842349429716:function:ProcessingKinesisLambdaDynamoDB",
-    "Handler": "com.snowplowanalytics.ProcessKinesisEvents::recordHandler",
+    "Handler": "com.snowplowanalytics.awslambda.LambdaFunction::recordHandler",
     "Role": "arn:aws:iam::842340234716:role/LambdaStack-LambdaExecRole-7G57P4M2VV5P",
     "Timeout": 60,
     "LastModified": "2015-08-13T19:39:46.730+0000",
@@ -156,9 +137,11 @@ Creating AWS Lambda function.
 }
 ```
 
+Now we can associate our Lambda with our Kinesis stream:
+
 ```bash
 $ inv configure_lambda my-stream
-Configured AWS Lambda Service.
+Configured AWS Lambda service.
 Added Kinesis as event source for Lambda function.
 ```
 
@@ -191,13 +174,13 @@ For each **BucketStart** and **EventType** pair, we see a **Count**, plus some *
 
 ## Credits
 
-* Ian Meyers and his [Amazon-Kinesis-Aggregators-Project][amazon-kinesis-aggregators], a true inspiration for streaming analytics-on-write
+* Ian Meyers and his [Amazon Kinesis Aggregators][amazon-kinesis-aggregators] project, a true inspiration for streaming analytics-on-write
 
 ## Copyright and license
 
 AWS Lambda Scala Example Project is copyright 2015 Snowplow Analytics Ltd.
 
-Licensed under the **[Apache License, Version 2.0] [license]** (the "License");
+Licensed under the [Apache License, Version 2.0] [license] (the "License");
 you may not use this software except in compliance with the License.
 
 Unless required by applicable law or agreed to in writing, software
@@ -214,23 +197,19 @@ limitations under the License.
 [releases]: https://github.com/snowplow/aws-lambda-nodejs-example-project/releases
 [grunt-image]: https://cdn.gruntjs.com/builtwith.png
 
-[spark-example-project]: https://github.com/snowplow/spark-example-project
 [spark-streaming-example-project]: https://github.com/snowplow/spark-streaming-example-project
 [aws-lambda-nodejs-example-project]: https://github.com/snowplow/aws-lambda-nodejs-example-project
 [vagrant-install]: http://docs.vagrantup.com/v2/installation/index.html
 [virtualbox-install]: https://www.virtualbox.org/wiki/Downloads
 
-[blog-post]: http://snowplowanalytics.com/blog/2015/08/21/aws-lambda-scala-example-project-0.1.0-released/
+[blog-post]: http://snowplowanalytics.com/blog/2015/08/20/aws-lambda-scala-example-project-0.1.0-released/
 [020-milestone]: https://github.com/snowplow/aws-lambda-scala-example-project/milestones/Version%200.2.0
 [dynamodb-table-image]: /docs/dynamodb-table-image.png?raw=true
 
+[aws-cloudformation]: http://aws.amazon.com/cloudformation
 [aws-lambda]: http://aws.amazon.com/lambda/
 [aws-kinesis]: http://aws.amazon.com/kinesis/
 [aws-dynamodb]: http://aws.amazon.com/dynamodb
-[vagrant-install]: http://docs.vagrantup.com/v2/installation/index.html
-[virtualbox-install]: https://www.virtualbox.org/wiki/Downloads
-[tim-b]: https://github.com/Tim-B
-[tim-b-post]: http://hipsterdevblog.com/blog/2014/12/07/writing-functions-for-aws-lambda-using-npm-and-grunt/
 [amazon-kinesis-aggregators]: https://github.com/awslabs/amazon-kinesis-aggregators
 
 [snowplow]: http://snowplowanalytics.com

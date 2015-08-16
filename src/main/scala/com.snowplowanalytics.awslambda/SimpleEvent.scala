@@ -10,7 +10,7 @@
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the Apache License Version 2.0 for the specific language governing permissions and limitations there under.
  */
-package com.snowplowanalytics
+package com.snowplowanalytics.awslambda
 
 // Java
 import java.text.SimpleDateFormat
@@ -19,7 +19,6 @@ import java.util.Date
 // json4s
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
-
 
 /**
  * Companion object for creating a SimpleEvent
@@ -58,5 +57,4 @@ case class SimpleEvent(id: String, timestamp: String, eventType: String) {
 
   // Convert timestamp into Time Bucket using Bucketing Strategy
   val bucket = BucketStrategy.bucket(SimpleEvent.convertStringToDate(timestamp))
-
 }
