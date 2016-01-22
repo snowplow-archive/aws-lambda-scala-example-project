@@ -147,7 +147,7 @@ Added Kinesis as event source for Lambda function.
 
 ### 6. Sending events to Kinesis
 
-We need to start sending events to our new Kinesis stream. We have created a helper method to do this - run the below and leave it running: 
+We need to start sending events to our new Kinesis stream. We have created a helper method to do this - run the below and leave it running:
 
 ```bash
 $ inv generate_events default us-east-1 my-stream
@@ -189,12 +189,12 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-[travis]: https://travis-ci.org/snowplow/aws-lambda-nodejs-example-project
-[travis-image]: https://travis-ci.org/snowplow/aws-lambda-nodejs-example-project.png?branch=master
+[travis]: https://travis-ci.org/snowplow/aws-lambda-scala-example-project
+[travis-image]: https://travis-ci.org/snowplow/aws-lambda-scala-example-project.png?branch=master
 [license-image]: http://img.shields.io/badge/license-Apache--2-blue.svg?style=flat
 [license]: http://www.apache.org/licenses/LICENSE-2.0
-[release-image]: http://img.shields.io/badge/release-0.1.0-blue.svg?style=flat
-[releases]: https://github.com/snowplow/aws-lambda-nodejs-example-project/releases
+[release-image]: http://img.shields.io/badge/release-0.2.0-blue.svg?style=flat
+[releases]: https://github.com/snowplow/aws-lambda-scala-example-project/releases
 [grunt-image]: https://cdn.gruntjs.com/builtwith.png
 
 [spark-streaming-example-project]: https://github.com/snowplow/spark-streaming-example-project
