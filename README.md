@@ -102,7 +102,7 @@ info] Loading project definition from /aws-lambda-scala-example-project/project
 [warn] Strategy 'discard' was applied to 62 files
 [warn] Strategy 'first' was applied to a file
 [info] SHA-1: 96401bbad71968267ccea4c479a7d39093ef8988
-[info] Packaging /Volumes/DataDrive/dev/aws-lambda-scala-example-project/target/scala-2.11/aws-lambda-scala-example-project-0.1.0 ...
+[info] Packaging /Volumes/DataDrive/dev/aws-lambda-scala-example-project/target/scala-2.11/aws-lambda-scala-example-project-0.2.0.jar ...
 [info] Done packaging.
 [success] Total time: 59 s, completed 13-Aug-2015 10:40:05 AM
 ```
@@ -169,7 +169,6 @@ For each **BucketStart** and **EventType** pair, we see a **Count**, plus some *
 
 ## Roadmap
 
-* Various improvements for the [0.2.0 release] [020-milestone]
 * Expanding our analytics-on-write thinking into our new [Icebucket] [icebucket] project
 
 ## Credits
@@ -203,7 +202,6 @@ limitations under the License.
 [virtualbox-install]: https://www.virtualbox.org/wiki/Downloads
 
 [blog-post]: http://snowplowanalytics.com/blog/2015/08/20/aws-lambda-scala-example-project-0.1.0-released/
-[020-milestone]: https://github.com/snowplow/aws-lambda-scala-example-project/milestones/Version%200.2.0
 [dynamodb-table-image]: /docs/dynamodb-table-image.png?raw=true
 
 [aws-cloudformation]: http://aws.amazon.com/cloudformation
