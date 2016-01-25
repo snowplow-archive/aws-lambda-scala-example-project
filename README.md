@@ -102,7 +102,7 @@ info] Loading project definition from /aws-lambda-scala-example-project/project
 [warn] Strategy 'discard' was applied to 62 files
 [warn] Strategy 'first' was applied to a file
 [info] SHA-1: 96401bbad71968267ccea4c479a7d39093ef8988
-[info] Packaging /Volumes/DataDrive/dev/aws-lambda-scala-example-project/target/scala-2.11/aws-lambda-scala-example-project-0.1.0 ...
+[info] Packaging /Volumes/DataDrive/dev/aws-lambda-scala-example-project/target/scala-2.11/aws-lambda-scala-example-project-0.2.0.jar ...
 [info] Done packaging.
 [success] Total time: 59 s, completed 13-Aug-2015 10:40:05 AM
 ```
@@ -147,7 +147,7 @@ Added Kinesis as event source for Lambda function.
 
 ### 6. Sending events to Kinesis
 
-We need to start sending events to our new Kinesis stream. We have created a helper method to do this - run the below and leave it running: 
+We need to start sending events to our new Kinesis stream. We have created a helper method to do this - run the below and leave it running:
 
 ```bash
 $ inv generate_events default us-east-1 my-stream
@@ -169,7 +169,6 @@ For each **BucketStart** and **EventType** pair, we see a **Count**, plus some *
 
 ## Roadmap
 
-* Various improvements for the [0.2.0 release] [020-milestone]
 * Expanding our analytics-on-write thinking into our new [Icebucket] [icebucket] project
 
 ## Credits
@@ -189,12 +188,12 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-[travis]: https://travis-ci.org/snowplow/aws-lambda-nodejs-example-project
-[travis-image]: https://travis-ci.org/snowplow/aws-lambda-nodejs-example-project.png?branch=master
+[travis]: https://travis-ci.org/snowplow/aws-lambda-scala-example-project
+[travis-image]: https://travis-ci.org/snowplow/aws-lambda-scala-example-project.png?branch=master
 [license-image]: http://img.shields.io/badge/license-Apache--2-blue.svg?style=flat
 [license]: http://www.apache.org/licenses/LICENSE-2.0
-[release-image]: http://img.shields.io/badge/release-0.1.0-blue.svg?style=flat
-[releases]: https://github.com/snowplow/aws-lambda-nodejs-example-project/releases
+[release-image]: http://img.shields.io/badge/release-0.2.0-blue.svg?style=flat
+[releases]: https://github.com/snowplow/aws-lambda-scala-example-project/releases
 [grunt-image]: https://cdn.gruntjs.com/builtwith.png
 
 [spark-streaming-example-project]: https://github.com/snowplow/spark-streaming-example-project
@@ -203,7 +202,6 @@ limitations under the License.
 [virtualbox-install]: https://www.virtualbox.org/wiki/Downloads
 
 [blog-post]: http://snowplowanalytics.com/blog/2015/08/20/aws-lambda-scala-example-project-0.1.0-released/
-[020-milestone]: https://github.com/snowplow/aws-lambda-scala-example-project/milestones/Version%200.2.0
 [dynamodb-table-image]: /docs/dynamodb-table-image.png?raw=true
 
 [aws-cloudformation]: http://aws.amazon.com/cloudformation

@@ -37,9 +37,9 @@ POLICY_NAME = "AdministratorAccess"
 STACK_NAME = "LambdaStack"
 TEMPLATE_URL = "https://snowplow-hosted-assets.s3.amazonaws.com/third-party/aws-lambda/lambda-admin.template"
 CAPABILITIES = ["CAPABILITY_IAM"]
+JARFILE = "./target/scala-2.11/aws-lambda-scala-example-project-0.2.0.jar"
 S3_BUCKET = "aws_scala_lambda_bucket"
-S3_KEY = "aws-lambda-scala-example-project-0.1.0"
-JARFILE = "./target/scala-2.11/aws-lambda-scala-example-project-0.1.0"
+S3_KEY = os.path.basename(JARFILE)
 FUNCTION_NAME = "ProcessingKinesisLambdaDynamoDB"
 # Selection of EventType values
 COLORS = ['Red','Orange','Yellow','Green','Blue']
@@ -93,7 +93,7 @@ def upload_s3():
 
     # upload
     c = boto.connect_s3()
-    b = c.get_bucket(S3_BUCKET) 
+    b = c.get_bucket(S3_BUCKET)
     # Create a multipart upload request
     mp = b.initiate_multipart_upload(os.path.basename(source_path))
 
@@ -170,7 +170,7 @@ def create_lambda():
                                     --role {} \
                                     --handler com.snowplowanalytics.awslambda.LambdaFunction::recordHandler \
                                     --runtime java8 --timeout 60 --memory-size 1024".format(REGION, FUNCTION_NAME, S3_BUCKET, S3_KEY, IAM_ROLE_ARN), pty=True)
- 
+
 def get_iam_role_arn():
     client_iam = boto.connect_iam()
     roles = client_iam.list_roles()
@@ -189,10 +189,10 @@ def configure_lambda(stream):
     IAM_ROLE_ARN = get_iam_role_arn()
     aws_lambda = boto.connect_awslambda()
     event_source = kinesis_stream(stream)
-    response_add_event_source = aws_lambda.add_event_source(event_source, 
-                                                            FUNCTION_NAME, 
+    response_add_event_source = aws_lambda.add_event_source(event_source,
+                                                            FUNCTION_NAME,
                                                             IAM_ROLE_ARN,
-                                                            batch_size=100, 
+                                                            batch_size=100,
                                                             parameters=None)
     event_source_id = response_add_event_source['UUID']
 
@@ -200,7 +200,7 @@ def configure_lambda(stream):
         print('Waiting for the event source to become active')
         sleep(5)
         response_add_event_source = aws_lambda.get_event_source(event_source_id)
-    
+
     print('Added Kinesis as event source for Lambda function')
 
 
@@ -245,11 +245,11 @@ def kinesis_stream(stream):
     """
     kinesis = boto.connect_kinesis()
     return kinesis.describe_stream(stream)['StreamDescription']['StreamARN']
-    
+
 @task
 def describe_kinesis_stream(stream):
     """
     Prints status Kinesis stream
     """
     print("Created: ")
-    print(kinesis_stream(stream))   
+    print(kinesis_stream(stream))
